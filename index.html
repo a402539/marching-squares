@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marching Squares</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Marching Squares</h1>
+    </header>
+    <main>
+        <section id="result-panel">
+            <canvas id="result-canvas" width="100" height="100" style="border: 1px solid black;"></canvas>
+        </section>
+        <section id="lookup-panel">
+            <canvas id="lookup-canvas" width="100" height="100"></canvas>
+        </section>
+        <section id="options-panel">
+            <h2>Options</h2>
+            <div class="control-group">
+                <label>Threshold: <input type="range" id="option-threshold" min="0" max="9"></label>
+            </div>
+            <div class="control-group">
+                <label><input type="checkbox" id="option-interpolate"> Interpolate?</label>
+            </div>
+            <div class="control-group">
+                <label><input type="radio" name="option-fill-or-stroke" value="fill" checked> Fill</label>
+                <label><input type="radio" name="option-fill-or-stroke" value="stroke"> Stroke</label> 
+            </div>
+        </section>
+        <section id="input-data-panel">ipt</section>
+    </main>
+    <footer>
+        Sobre...
+    </footer>
+    <div id="controls">
+        <button id="play-button">⏯</button>
+        <label><input type="checkbox" id="option-autoplay">Auto</label>
+    </div>
+    
+    <script src="js/main.js" type="module"></script>
+</body>
+</html>
