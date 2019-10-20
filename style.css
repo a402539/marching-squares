@@ -46,6 +46,10 @@ main {
     grid-column: 2 / 3;
 }
 
+/* -- Result section -- */
+#result-canvas {
+    margin: auto;
+}
 
 /* -- Input section -- */
 .spreadsheet {

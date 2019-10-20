@@ -72,7 +72,8 @@ function setAutoPlay(e) {
         '#option-threshold',
         '#option-interpolate',
         '[name="option-fill-or-stroke"]',
-        '.spreadsheet'
+        '.spreadsheet',
+        '#input-width, #input-height'
     ]
         .map(selector => [...document.querySelectorAll(selector)])
         .reduce((flattened, array) => flattened.concat(array), []);
@@ -94,6 +95,30 @@ function setAutoPlay(e) {
         spreadsheetEl.removeEventListener('input', setDataRange);
     }
 }
+// configura botões de tamanho de input
+const inputDimensionButtons = document.querySelectorAll('#input-width, #input-height');
+inputDimensionButtons.forEach(el => el.addEventListener('input', setResultCanvasDimensions));
+
+// configura largura/altura do canvas de resultado de acordo com 
+// os dados de input
+function setResultCanvasDimensions() {
+    const canvasEl = document.querySelector('#result-canvas');
+    const panelWidth = document.querySelector('#result-panel').clientWidth;
+    const panelHeight = document.querySelector('#result-panel').clientHeight;
+    const data = input.getData();
+    const height = data.length;
+    const width = data[0].length;
+    const dataAspectRatio = width / height;
+
+    if (dataAspectRatio > 1) {
+        canvasEl.width = panelWidth;
+        canvasEl.height = panelWidth / dataAspectRatio;
+    } else {
+        canvasEl.height = panelHeight;
+        canvasEl.width = panelHeight * dataAspectRatio;
+
+    }
+}
 
 // configura botão play
 const playButtonEl = document.querySelector('#play-button');
@@ -105,21 +130,3 @@ autoPlayEl.addEventListener('change', setAutoPlay);
 setAutoPlay({ currentTarget: autoPlayEl });
 drawImage();
 
-// configura botões de tamanho de input
-const inputDimensionButtons = document.querySelectorAll('#input-width, #input-height');
-inputDimensionButtons.forEach(el => el.addEventListener('input', setResultCanvasDimensions));
-
-// configura largura/altura do canvas de resultado de acordo com 
-// os dados de input
-function setResultCanvasDimensions() {
-    const canvasEl = document.querySelector('#result-canvas');
-    const panelWidth = document.querySelector('#result-panel').clientWidth;
-    // const panelHeight = document.querySelector('#result-panel').clientHeight;
-    const data = input.getData();
-    const height = data.length;
-    const width = data[0].length;
-    const dataAspectRatio = width/height;
-
-    canvasEl.width = panelWidth;
-    canvasEl.height = panelWidth / dataAspectRatio;
-}

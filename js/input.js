@@ -151,12 +151,26 @@ function prepareSpreadsheet(e) {
     }
 }
 
+function loadSpreadsheetData(data) {
+    for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[0].length; j++) {
+            spreadsheetEl.children[i*data[0].length+j].value = data[i][j];
+        }
+    }
+}
 
 
 
 // configura botões de largura/altura dos dados de input
 [spreadsheetWidthEl, spreadsheetHeightEl].forEach(el => el.addEventListener('input', prepareSpreadsheet));
 prepareSpreadsheet();
+loadSpreadsheetData([
+    [0, 1, 1, 3, 2],
+    [1, 3, 6, 6, 3],
+    [3, 7, 9, 7, 3],
+    [2, 7, 8, 6, 2],
+    [1, 2, 3, 4, 3]
+]);
 
 
 
@@ -164,13 +178,6 @@ prepareSpreadsheet();
 const dataProviders = {
     spreadsheet: {
         getData() {
-            // const data = [
-            //     [0, 1, 1, 3, 2],
-            //     [1, 3, 6, 6, 3],
-            //     [3, 7, 9, 7, 3],
-            //     [2, 7, 8, 6, 2],
-            //     [1, 2, 3, 4, 3]
-            // ];
             const width = +spreadsheetWidthEl.value;
             const height = +spreadsheetHeightEl.value;
             const spreadsheetInputElements = spreadsheetEl.querySelectorAll('input');
