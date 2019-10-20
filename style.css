@@ -45,3 +45,15 @@ main {
     grid-row: 2 / 3;
     grid-column: 2 / 3;
 }
+
+
+/* -- Input section -- */
+.spreadsheet {
+    display: grid;
+    max-width: 100%;
+    --item-width: 3em;
+}
+
+.spreadsheet input {
+    min-width: 2em;
+}

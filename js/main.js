@@ -1,35 +1,19 @@
 import { vec2 } from './math/vector.js';
 import { marchingSquares } from './marching-squares/index.js';
+import { input } from './input.js';
 
-
-
-
-const data = [
-    [0, 1, 1, 3, 2],
-    [1, 3, 6, 6, 3],
-    [3, 7, 9, 7, 3],
-    [2, 7, 8, 6, 2],
-    [1, 2, 3, 4, 3]
-];
-// const data = [
-//     [1, 1, 3, 3, 3],
-//     [1, 1, 3, 3, 3],
-//     [3, 3, 3, 1, 1],
-//     [3, 3, 1, 1, 1],
-//     [3, 3, 1, 1, 1]
-// ];
 
 function getExecutionParams() {
     return {
-        data: data,
+        data: input.getData(),
         threshold: document.querySelector('#option-threshold').value,
         interpolate: document.querySelector('#option-interpolate').checked,
         fillOrStroke: document.querySelector('[name="option-fill-or-stroke"]:checked').value
     };
 }
 
+// executa o algoritmo e desenha a imagem
 function drawImage(e) {
-
     const params = getExecutionParams();
 
     let polygons = marchingSquares(params.data, params.threshold, params.interpolate);
@@ -37,19 +21,22 @@ function drawImage(e) {
     
     const canvasEl = document.querySelector('#result-canvas');
     const imageSize = vec2(canvasEl.clientWidth, canvasEl.clientHeight);
-    const dataSize = vec2(data.length > 0 ? data[0].length - 1: 0, data.length - 1);
+    const dataSize = vec2(params.data.length > 0 ? params.data[0].length - 1 : 0, params.data.length - 1);
     const ctx = canvasEl.getContext('2d');
     
-    // percorre os polígonos, desenhando cada um com seus vértices
+    // limpa o canvas para poder desenhar a imagem
     ctx.clearRect(0, 0, imageSize.x, imageSize.y);
     ctx.fillStyle = '#f00';
     ctx.strokeStyle = '#000';
     
-    
+    // percorre os polígonos, desenhando cada um com seus vértices
     polygons.forEach(vertices => {
         ctx.beginPath();
     
-        // vertices = vertices.filter(v => !v.inside);
+        if (params.fillOrStroke === 'stroke') {
+            vertices = vertices.filter(v => !v.inside);
+        }
+
         for (let c = 0; c < vertices.length; c++) {
             const coordinate = dataToImageCoordinates(vertices[c], dataSize, imageSize);
             if (c === 0) {
@@ -60,11 +47,12 @@ function drawImage(e) {
         }
     
         ctx.closePath();
-        // ctx.stroke();
-        ctx.fill();
+        if (params.fillOrStroke === 'stroke') {
+            ctx.stroke();
+        } else {
+            ctx.fill();
+        }
     });
-
-    console.log('drew');
     
     
     function dataToImageCoordinates(position, dataSize, imageSize) {
@@ -73,5 +61,49 @@ function drawImage(e) {
     }
 }
 
+function setDataRange() {
+    const thresholdEl = document.querySelector('#option-threshold');
+    const flattenedData = input.getData().reduce((flattened, array) => flattened.concat(array), []);
+    thresholdEl.max = Math.max(...flattenedData);
+}
+
+function setAutoPlay(e) {
+    const checked = e.currentTarget.checked;
+    const playTriggerElements = [
+        '#option-threshold',
+        '#option-interpolate',
+        '[name="option-fill-or-stroke"]',
+        '.spreadsheet'
+    ]
+        .map(selector => [...document.querySelectorAll(selector)])
+        .reduce((flattened, array) => flattened.concat(array), []);
+
+
+    if (checked) {
+        playTriggerElements.forEach(el => el.addEventListener('input', drawImage));
+    } else {
+        playTriggerElements.forEach(el => el.removeEventListener('input', drawImage));
+    }
+
+    // para os campos de input da spreadsheet, é preciso usar event delegation
+    const spreadsheetEl = document.querySelector('.spreadsheet');
+    if (checked) {
+        // spreadsheetEl.addEventListener('input', drawImage);
+        spreadsheetEl.addEventListener('input', setDataRange);
+    } else {
+        // spreadsheetEl.removeEventListener('input', drawImage);
+        spreadsheetEl.removeEventListener('input', setDataRange);
+    }
+}
+
+// configura botão play
 const playButtonEl = document.querySelector('#play-button');
 playButtonEl.addEventListener('click', drawImage);
+
+// configura botão autoplay
+const autoPlayEl = document.querySelector('#option-autoplay');
+autoPlayEl.addEventListener('change', setAutoPlay);
+setAutoPlay({ currentTarget: autoPlayEl });
+drawImage();
+
+// configura 

@@ -30,14 +30,31 @@
                 <label><input type="radio" name="option-fill-or-stroke" value="stroke"> Stroke</label> 
             </div>
         </section>
-        <section id="input-data-panel">ipt</section>
+        <section id="input-data-panel">
+            <h2>Input data</h2>
+            <div class="tabbed">
+                <div class="tabbed-content">
+                    
+                    <label>Dimensions: <input type="number" id="input-width" min="5" max="15" value="5">x<input type="number" id="input-height" min="5" max="15" value="5"></label>
+                    <div class="spreadsheet">
+                        <!-- js will put inputs here -->
+                        <input type="number" min="0" max="255" value="0">
+                    </div>
+                </div>
+
+                <div class="tabbed-buttons">
+                    <span class="tabbed-button tab-active" data-input-type="spreadsheet">Spreadsheet</span>
+                    <span class="tabbed-button" data-input-type="drop-image">Drop image</span>
+                </div>
+            </section>
+        </div>
     </main>
     <footer>
         Sobre...
     </footer>
     <div id="controls">
         <button id="play-button">⏯</button>
-        <label><input type="checkbox" id="option-autoplay">Auto</label>
+        <label><input type="checkbox" id="option-autoplay" checked>Auto</label>
     </div>
     
     <script src="js/main.js" type="module"></script>
