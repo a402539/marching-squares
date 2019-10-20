@@ -18,7 +18,6 @@ function drawImage(e) {
 
     let polygons = marchingSquares(params.data, params.threshold, params.interpolate);
     
-    
     const canvasEl = document.querySelector('#result-canvas');
     const imageSize = vec2(canvasEl.clientWidth, canvasEl.clientHeight);
     const dataSize = vec2(params.data.length > 0 ? params.data[0].length - 1 : 0, params.data.length - 1);
@@ -106,4 +105,21 @@ autoPlayEl.addEventListener('change', setAutoPlay);
 setAutoPlay({ currentTarget: autoPlayEl });
 drawImage();
 
-// configura 
+// configura botões de tamanho de input
+const inputDimensionButtons = document.querySelectorAll('#input-width, #input-height');
+inputDimensionButtons.forEach(el => el.addEventListener('input', setResultCanvasDimensions));
+
+// configura largura/altura do canvas de resultado de acordo com 
+// os dados de input
+function setResultCanvasDimensions() {
+    const canvasEl = document.querySelector('#result-canvas');
+    const panelWidth = document.querySelector('#result-panel').clientWidth;
+    // const panelHeight = document.querySelector('#result-panel').clientHeight;
+    const data = input.getData();
+    const height = data.length;
+    const width = data[0].length;
+    const dataAspectRatio = width/height;
+
+    canvasEl.width = panelWidth;
+    canvasEl.height = panelWidth / dataAspectRatio;
+}
