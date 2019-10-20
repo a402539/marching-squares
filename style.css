@@ -56,8 +56,17 @@ main {
     display: grid;
     max-width: 100%;
     --item-width: 3em;
+    --border: 1px solid silver;
+    border-left: var(--border);
+    border-top: var(--border);
 }
 
 .spreadsheet input {
     min-width: 2em;
+    border-left: 0;
+    border-top: 0;
+    border-right: var(--border);
+    border-bottom: var(--border);
+    text-align: center;
+    color: gray;
 }
