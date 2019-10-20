@@ -98,6 +98,7 @@ function setAutoPlay(e) {
 // configura botões de tamanho de input
 const inputDimensionButtons = document.querySelectorAll('#input-width, #input-height');
 inputDimensionButtons.forEach(el => el.addEventListener('input', setResultCanvasDimensions));
+setResultCanvasDimensions();
 
 // configura largura/altura do canvas de resultado de acordo com 
 // os dados de input
