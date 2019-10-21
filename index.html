@@ -15,7 +15,7 @@
             <canvas id="result-canvas" width="100" height="100" style="border: 1px solid black;"></canvas>
         </section>
         <section id="lookup-panel">
-            <canvas id="lookup-canvas" width="100" height="100"></canvas>
+            <canvas id="lookup-canvas" width="200" height="200"></canvas>
         </section>
         <section id="options-panel">
             <h2>Options</h2>
@@ -28,6 +28,10 @@
             <div class="control-group">
                 <label><input type="radio" name="option-fill-or-stroke" value="fill" checked> Fill</label>
                 <label><input type="radio" name="option-fill-or-stroke" value="stroke"> Stroke</label> 
+            </div>
+            <div class="control-group">
+                <label><input type="checkbox" id="option-draw-data-colors"> Draw data as color</label>
+                <label><input type="checkbox" id="option-draw-data-numbers"> Draw data as number</label>
             </div>
         </section>
         <section id="input-data-panel">
