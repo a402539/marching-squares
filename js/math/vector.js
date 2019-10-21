@@ -4,6 +4,9 @@ export class Vec2 {
     constructor(x, y) {
         this.x = x;
         this.y = y;
+        if (typeof y === 'undefined' && typeof x !== 'undefined') {
+            this.y = x;
+        }
     }
 
     mult(other) {
@@ -15,7 +18,11 @@ export class Vec2 {
     }
 
     add(other) {
-        return new Vec2(this.x + other.x, this.y + other.y);
+        if (other instanceof Vec2) {
+            return new Vec2(this.x + other.x, this.y + other.y);
+        } else {
+            return new Vec2(this.x + other, this.y + other);
+        }
     }
 }
 

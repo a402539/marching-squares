@@ -7,22 +7,22 @@ import { vtx2 } from '../math/vertex.js';
 //   1 o------o 2
 //    lsb
 export const lookupTable = {
-    0b0000: [[vtx2(0.00, 0.00, true), vtx2(0.00, 1.00, true), vtx2(1.00, 1.00, true), vtx2(1.00, 0.00, true)]],
-    0b0001: [[vtx2(0.50, 0.00), vtx2(0.00, 0.50), vtx2(0.00, 1.00, true), vtx2(1.00, 1.00, true), vtx2(1.00, 0.00, true)]],
-    0b0010: [[vtx2(1.00, 0.50), vtx2(0.50, 0.00), vtx2(0.00, 0.00, true), vtx2(0.00, 1.00, true), vtx2(1.00, 1.00, true)]],
-    0b0011: [[vtx2(1.00, 0.50), vtx2(0.00, 0.50), vtx2(0.00, 1.00, true), vtx2(1.00, 1.00, true)]],
-    0b0100: [[vtx2(0.50, 1.00), vtx2(1.00, 0.50), vtx2(1.00, 0.00, true), vtx2(0.00, 0.00, true), vtx2(0.00, 1.00, true)]],
-    0b0101: [[vtx2(0.50, 1.00), vtx2(0.00, 0.50), vtx2(0.00, 1.00, true)], [vtx2(0.50, 0.00), vtx2(1.00, 0.50), vtx2(1.00, 0.00, true)]],
-    0b0110: [[vtx2(0.50, 1.00), vtx2(0.50, 0.00), vtx2(0.00, 0.00, true), vtx2(0.00, 1.00, true)]],
-    0b0111: [[vtx2(0.50, 1.00), vtx2(0.00, 0.50), vtx2(0.00, 1.00, true)]],
-    0b1000: [[vtx2(0.00, 0.50), vtx2(0.50, 1.00), vtx2(1.00, 1.00, true), vtx2(1.00, 0.00, true), vtx2(0.00, 0.00, true)]],
-    0b1001: [[vtx2(0.50, 0.00), vtx2(0.50, 1.00), vtx2(1.00, 1.00, true), vtx2(1.00, 0.00, true)]],
-    0b1010: [[vtx2(1.00, 0.50), vtx2(0.50, 1.00), vtx2(1.00, 1.00, true)], [vtx2(0.00, 0.50), vtx2(0.50, 0.00), vtx2(0.00, 0.00, true)]],
-    0b1011: [[vtx2(1.00, 0.50), vtx2(0.50, 1.00), vtx2(1.00, 1.00, true)]],
-    0b1100: [[vtx2(0.00, 0.50), vtx2(1.00, 0.50), vtx2(1.00, 0.00, true), vtx2(0.00, 0.00, true)]],
-    0b1101: [[vtx2(0.50, 0.00), vtx2(1.00, 0.50), vtx2(1.00, 0.00, true)]],
-    0b1110: [[vtx2(0.00, 0.50), vtx2(0.50, 0.00), vtx2(0.00, 0.00, true)]],
-    0b1111: [[]]
+    0b0000: { case: 0, polygons: [[vtx2(0.00, 0.00, true), vtx2(0.00, 1.00, true), vtx2(1.00, 1.00, true), vtx2(1.00, 0.00, true)]] },
+    0b0001: { case: 1, polygons: [[vtx2(0.50, 0.00), vtx2(0.00, 0.50), vtx2(0.00, 1.00, true), vtx2(1.00, 1.00, true), vtx2(1.00, 0.00, true)]] },
+    0b0010: { case: 2, polygons: [[vtx2(1.00, 0.50), vtx2(0.50, 0.00), vtx2(0.00, 0.00, true), vtx2(0.00, 1.00, true), vtx2(1.00, 1.00, true)]] },
+    0b0011: { case: 3, polygons: [[vtx2(1.00, 0.50), vtx2(0.00, 0.50), vtx2(0.00, 1.00, true), vtx2(1.00, 1.00, true)]] },
+    0b0100: { case: 4, polygons: [[vtx2(0.50, 1.00), vtx2(1.00, 0.50), vtx2(1.00, 0.00, true), vtx2(0.00, 0.00, true), vtx2(0.00, 1.00, true)]] },
+    0b0101: { case: 5, polygons: [[vtx2(0.50, 1.00), vtx2(0.00, 0.50), vtx2(0.00, 1.00, true)], [vtx2(0.50, 0.00), vtx2(1.00, 0.50), vtx2(1.00, 0.00, true)]] },
+    0b0110: { case: 6, polygons: [[vtx2(0.50, 1.00), vtx2(0.50, 0.00), vtx2(0.00, 0.00, true), vtx2(0.00, 1.00, true)]] },
+    0b0111: { case: 7, polygons: [[vtx2(0.50, 1.00), vtx2(0.00, 0.50), vtx2(0.00, 1.00, true)]] },
+    0b1000: { case: 8, polygons: [[vtx2(0.00, 0.50), vtx2(0.50, 1.00), vtx2(1.00, 1.00, true), vtx2(1.00, 0.00, true), vtx2(0.00, 0.00, true)]] },
+    0b1001: { case: 9, polygons: [[vtx2(0.50, 0.00), vtx2(0.50, 1.00), vtx2(1.00, 1.00, true), vtx2(1.00, 0.00, true)]] },
+    0b1010: { case: 10, polygons: [[vtx2(1.00, 0.50), vtx2(0.50, 1.00), vtx2(1.00, 1.00, true)], [vtx2(0.00, 0.50), vtx2(0.50, 0.00), vtx2(0.00, 0.00, true)]] },
+    0b1011: { case: 11, polygons: [[vtx2(1.00, 0.50), vtx2(0.50, 1.00), vtx2(1.00, 1.00, true)]] },
+    0b1100: { case: 12, polygons: [[vtx2(0.00, 0.50), vtx2(1.00, 0.50), vtx2(1.00, 0.00, true), vtx2(0.00, 0.00, true)]] },
+    0b1101: { case: 13, polygons: [[vtx2(0.50, 0.00), vtx2(1.00, 0.50), vtx2(1.00, 0.00, true)]] },
+    0b1110: { case: 14, polygons: [[vtx2(0.00, 0.50), vtx2(0.50, 0.00), vtx2(0.00, 0.00, true)]] },
+    0b1111: { case: 15, polygons: [[]] }
 };
 Object.seal(lookupTable);
 
@@ -51,7 +51,7 @@ function march(thresholdedData, i, j, originalData, threshold) {
     cellIndexInLookupTable += 1 * (1-thresholdedData[i+1][j+0]);    // baixo esquerda
 
     // olha na tabela para ver quais vértices devem existir na célula
-    let polygons = lookupTable[cellIndexInLookupTable];
+    let polygons = lookupTable[cellIndexInLookupTable].polygons;
 
     // se for para interpolar, acha as interseções das arestas
     if (originalData && Array.isArray(originalData)) {
@@ -89,19 +89,22 @@ function march(thresholdedData, i, j, originalData, threshold) {
 
 
     // retorna os polígonos dentro desta célula
-    return polygons;
+    return {
+        case: lookupTable[cellIndexInLookupTable].case,
+        polygons
+    };
 }
 
 
 export function marchingSquares(data, threshold, interpolate = false) {
-    const polygons = [];
+    const cells = [];
     const thresholdedData = thresholdData(data, threshold);
     
     for (let i = 0, line = data[i]; i < data.length - 1; i++) {
-        for (let j = 0, x = line[j]; j < line.length - 1; j++) {
-            polygons.push(...march(thresholdedData, i, j, interpolate ? data : null, threshold));
+        for (let j = 0; j < line.length - 1; j++) {
+            cells.push(march(thresholdedData, i, j, interpolate ? data : null, threshold));
         }
     }
 
-    return polygons;
+    return cells;
 }

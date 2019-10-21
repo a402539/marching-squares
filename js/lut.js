@@ -75,7 +75,7 @@ function draw() {
     for (let i = 0; i < side; i++) {
         ctx.save();
         for (let j = 0; j < side; j++) {
-            drawCase(lutCases[i*side + j], caseWidth, caseWidth, i*side+j);
+            drawCase(lutCases[i*side + j].polygons, caseWidth, caseWidth, lutCases[i*side + j].case);
             ctx.translate(caseWidth, 0);
         }
         ctx.restore();
