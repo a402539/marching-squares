@@ -1,3 +1,5 @@
+
+/* -- general styles -- */
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
@@ -7,7 +9,7 @@ body {
     --pallete-color2: #3a4432;
     --pallete-color3: #92d85a;
     --pallete-color4: #454d3d;
-    --pallete-color5: #953324;
+    --pallete-color5: #ff4e33;
 }
 
 h1 {
@@ -54,8 +56,17 @@ main {
     border-radius: 4px;
 }
 
+a:link, a:visited {
+    color: var(--pallete-color3);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 #controls {
-    --controls-width: 100px;
+    --controls-width: 150px;
     position: fixed;
     bottom: 0;
     left: calc(50vw - var(--controls-width) / 2);
@@ -94,6 +105,14 @@ main {
     background-color: white;
 }
 
+/* -- Options section -- */
+#option-threshold-value {
+  max-width: 3em;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
 /* -- Input section -- */
 .spreadsheet {
     display: grid;
@@ -114,21 +133,13 @@ main {
     color: gray;
 }
 
+/* -- footer -- */
 footer {
     background-color: var(--pallete-color0);
     color: white;
     padding: 1.5em;
 }
 
-a:link, a:visited {
-    color: var(--pallete-color3);
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
 .play {
-    height: 1em;
+    height: 0.9em;
 }

@@ -19,20 +19,20 @@ function getExecutionParams() {
 // executa o algoritmo e desenha a imagem
 function drawImage(e) {
     const params = getExecutionParams();
-    
+
     let cells = marchingSquares(params.data, params.threshold, params.interpolate);
-    
+
     const canvasEl = document.querySelector('#result-canvas');
     const imageSize = vec2(canvasEl.clientWidth, canvasEl.clientHeight);
     const dataSize = vec2(params.data.length > 0 ? params.data[0].length : 0, params.data.length);
     const ctx = canvasEl.getContext('2d');
-    
+
     // limpa o canvas para poder desenhar a imagem
     ctx.clearRect(0, 0, imageSize.x, imageSize.y);
-    
+
     // desenha uma imagem em uma escala de cores representando os dados
     if (params.drawDataAsColors || params.drawDataAsNumbers) {
-        
+
         const flattenedData = params.data.reduce((flattened, array) => flattened.concat(array), []);
         const dataLimits = {
             min: Math.min(...flattenedData),
@@ -42,7 +42,7 @@ function drawImage(e) {
         for (let i = 0; i < dataSize.y; i++) {
             for (let j = 0; j < dataSize.x; j++) {
                 if (params.drawDataAsColors) {
-                    
+
                     ctx.fillStyle = colorScale.pick(scales.temperature, params.data[i][j], dataLimits.min, dataLimits.max);
                     ctx.fillRect(
                         j*imageSize.x/dataSize.x,
@@ -109,7 +109,7 @@ function drawImage(e) {
             ctx.closePath();
             ctx.stroke();
         }
-        
+
         // vértices das células
         for (let i = 0; i < dataSize.y; i++) {
             for (let j = 0; j < dataSize.x; j++) {
@@ -146,9 +146,9 @@ function drawImage(e) {
             }
         }
     }
-    
+
     // percorre os polígonos, desenhando cada um com seus vértices
-    ctx.fillStyle = '#f00';
+    ctx.fillStyle = '#ff4e33';
     ctx.strokeStyle = '#000';
 
     const polygons = cells.map(c => c.polygons).reduce((flattened, array) => flattened.concat(array), []);
@@ -156,11 +156,11 @@ function drawImage(e) {
     ctx.translate(imageSize.x / dataSize.x * 0.5, imageSize.y / dataSize.y * 0.5);
     polygons.forEach(vertices => {
         ctx.beginPath();
-        
+
         if (params.fillOrStroke === 'stroke') {
             vertices = vertices.filter(v => !v.inside);
         }
-        
+
         for (let c = 0; c < vertices.length; c++) {
             const coordinate = dataToImageCoordinates(vertices[c], dataSize, imageSize);
             if (c === 0) {
@@ -169,7 +169,7 @@ function drawImage(e) {
                 ctx.lineTo(coordinate.x, coordinate.y);
             }
         }
-        
+
         ctx.closePath();
         if (params.fillOrStroke === 'stroke') {
             ctx.stroke();
@@ -178,14 +178,14 @@ function drawImage(e) {
         }
     });
     ctx.restore();
-    
-    
+
+
     function dataToImageCoordinates(position, dataSize, imageSize) {
         const dataToUnitProportion = vec2(1/dataSize.x, 1/dataSize.y);
         return position.mult(dataToUnitProportion).mult(imageSize);
     }
 }
-        
+
 function setDataRange() {
     const thresholdEl = document.querySelector('#option-threshold');
     const flattenedData = input.getData().reduce((flattened, array) => flattened.concat(array), []);
@@ -205,14 +205,14 @@ function setAutoPlay(e) {
     ]
     .map(selector => [...document.querySelectorAll(selector)])
     .reduce((flattened, array) => flattened.concat(array), []);
-    
-    
+
+
     if (checked) {
         playTriggerElements.forEach(el => el.addEventListener('input', drawImage));
     } else {
         playTriggerElements.forEach(el => el.removeEventListener('input', drawImage));
     }
-    
+
     // para os campos de input da spreadsheet, é preciso usar event delegation
     const spreadsheetEl = document.querySelector('.spreadsheet');
     if (checked) {
@@ -223,30 +223,25 @@ function setAutoPlay(e) {
         spreadsheetEl.removeEventListener('input', setDataRange);
     }
 }
+
 // configura botões de tamanho de input
 const inputDimensionButtons = document.querySelectorAll('#input-width, #input-height');
 inputDimensionButtons.forEach(el => el.addEventListener('input', setResultCanvasDimensions));
 setResultCanvasDimensions();
 
-// configura largura/altura do canvas de resultado de acordo com 
+// configura largura/altura do canvas de resultado de acordo com
 // os dados de input
 function setResultCanvasDimensions() {
     const canvasEl = document.querySelector('#result-canvas');
-    const panelWidth = document.querySelector('#result-panel').clientWidth;
-    const panelHeight = document.querySelector('#result-panel').clientHeight;
+    const panelWidth = document.querySelector('#result-panel').clientWidth - 10;
+    const panelHeight = document.querySelector('#result-panel').clientHeight - 10;
     const data = input.getData();
     const height = data.length;
     const width = data[0].length;
     const dataAspectRatio = width / height;
-    
-    if (dataAspectRatio > 1) {
-        canvasEl.width = panelWidth;
-        canvasEl.height = panelWidth / dataAspectRatio;
-    } else {
-        canvasEl.height = panelHeight;
-        canvasEl.width = panelHeight * dataAspectRatio;
-        
-    }
+
+    canvasEl.width = panelWidth;
+    canvasEl.height = panelWidth / dataAspectRatio;
 }
 
 // configura botão play
@@ -258,6 +253,11 @@ const autoPlayEl = document.querySelector('#option-autoplay');
 autoPlayEl.addEventListener('change', setAutoPlay);
 setAutoPlay({ currentTarget: autoPlayEl });
 drawImage();
+
+// configura threshold e thresholdValue
+const thresholdEl = document.querySelector('#option-threshold');
+const thresholdValueEl = document.querySelector('#option-threshold-value')
+thresholdEl.addEventListener('input', () => thresholdValueEl.value = thresholdEl.value);
 
 
 // configura LUT
