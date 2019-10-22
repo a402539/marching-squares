@@ -1,20 +1,57 @@
 body {
     margin: 0;
+    font-family: 'Roboto', sans-serif;
     --header-height: 80px;
+    --pallete-color0: #4e5049;
+    --pallete-color1: #878a80;
+    --pallete-color2: #3a4432;
+    --pallete-color3: #92d85a;
+    --pallete-color4: #454d3d;
+    --pallete-color5: #953324;
+}
+
+h1 {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    color: white;
+    margin-top: 0;
+    padding-top: 0.5em;
+    margin-left: 0.5em;
+}
+
+h1 .highlight {
+    color: var(--pallete-color5);
+}
+
+h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif;
+    margin-top: 0;
+    text-transform: uppercase;
+    background-image: linear-gradient(to bottom, var(--pallete-color4) 49%, var(--pallete-color2) 51%);
+    color: white;
+    padding: 0.5em;
+    font-size: 17px;
 }
 
 header {
     height: var(--header-height);
+    background-image: url(img/background.jpg);
 }
 
 main {
     position: relative;
-    height: calc(100vh - var(--header-height));
+    min-height: calc(100vh - var(--header-height));
     display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 1fr auto;
     column-gap: 1em;
     row-gap: 1.5em;
+    background: var(--pallete-color1);
+}
+
+.logo {
+    height: 0.92em;
+    border-radius: 4px;
 }
 
 #controls {
@@ -23,32 +60,38 @@ main {
     bottom: 0;
     left: calc(50vw - var(--controls-width) / 2);
     width: var(--controls-width);
-    background-color: aquamarine;
+    background-color: var(--pallete-color3);
 }
 
 #result-panel {
-    grid-row: 1 / 2;
+    grid-row: 1 / 3;
     grid-column: 1 / 2;
 }
 
 #options-panel {
     grid-row: 1 / 2;
-    grid-column: 2 / 3;
+    grid-column: 3 / 4;
 }
 
 #input-data-panel {
-    grid-row: 2 / 3;
-    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
 }
 
 #lookup-panel {
     grid-row: 2 / 3;
-    grid-column: 2 / 3;
+    grid-column: 2 / 4;
 }
 
 /* -- Result section -- */
 #result-canvas {
+    display: block;
     margin: auto;
+    background-color: white;
+}
+
+#lookup-canvas {
+    background-color: white;
 }
 
 /* -- Input section -- */
@@ -69,4 +112,23 @@ main {
     border-bottom: var(--border);
     text-align: center;
     color: gray;
+}
+
+footer {
+    background-color: var(--pallete-color0);
+    color: white;
+    padding: 1.5em;
+}
+
+a:link, a:visited {
+    color: var(--pallete-color3);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.play {
+    height: 1em;
 }

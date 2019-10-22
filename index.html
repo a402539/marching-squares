@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marching Squares</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald&display=swap">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Marching Squares</h1>
+        <h1>
+            <img src="img/star.png" alt="A star" class="logo">
+            Marching <span class="highlight">Squares</span>
+        </h1>
     </header>
     <main>
         <section id="result-panel">
+            <h2>Resulting Image</h2>
             <canvas id="result-canvas" width="100" height="100" style="border: 1px solid black;"></canvas>
-        </section>
-        <section id="lookup-panel">
-            <canvas id="lookup-canvas" width="200" height="200"></canvas>
         </section>
         <section id="options-panel">
             <h2>Options</h2>
@@ -27,7 +29,7 @@
             </div>
             <div class="control-group">
                 <label><input type="radio" name="option-fill-or-stroke" value="fill" checked> Fill</label>
-                <label><input type="radio" name="option-fill-or-stroke" value="stroke"> Stroke</label> 
+                <label><input type="radio" name="option-fill-or-stroke" value="stroke"> Stroke</label>
             </div>
             <div class="control-group">
                 <label><input type="checkbox" id="option-draw-data-colors"> Draw data as color</label>
@@ -37,30 +39,38 @@
                 <label><input type="checkbox" id="option-draw-cells"> Draw cells</label>
             </div>
         </section>
+        <section id="lookup-panel">
+            <h2>Lookup Table</h2>
+            <canvas id="lookup-canvas" width="200" height="200"></canvas>
+        </section>
         <section id="input-data-panel">
             <h2>Input data</h2>
             <div class="tabbed">
                 <div class="tabbed-content">
-                    
-                    <label>Dimensions: <input type="number" id="input-width" min="5" max="15" value="5">x<input type="number" id="input-height" min="5" max="15" value="5"></label>
+        
+                    <label>Dimensions: <input type="number" id="input-width" min="5" max="15" value="5">x<input type="number"
+                            id="input-height" min="5" max="15" value="5"></label>
                     <div class="spreadsheet">
                         <!-- js will put inputs here -->
                         <input type="number" min="0" max="255" value="0">
                     </div>
                 </div>
-
+        
                 <div class="tabbed-buttons">
                     <span class="tabbed-button tab-active" data-input-type="spreadsheet">Spreadsheet</span>
                     <span class="tabbed-button" data-input-type="drop-image">Drop image</span>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
     </main>
     <footer>
-        Sobre...
+        <p>This is an interactive example showing how <a href="">Marching Squares</a> algorithm works.</p>
+        <p>Created by <a href="https://github.com/fegemo">fegemo</a>.</p>
     </footer>
     <div id="controls">
-        <button id="play-button">⏯</button>
+        <button id="play-button">
+            <img src="img/play.png" alt="Play icon" class="play">
+        </button>
         <label><input type="checkbox" id="option-autoplay" checked>Auto</label>
     </div>
     
