@@ -4,6 +4,11 @@ import { input } from './input.js';
 import { lut } from './lut.js';
 import { colorScale, scales} from './color-scale.js';
 
+const canvasEl = document.querySelector('#result-canvas');
+const ctx = canvasEl.getContext('2d');
+let resultingCellCases = [];
+let resultingCellStates = [];
+
 function getExecutionParams() {
     return {
         data: input.getData(),
@@ -21,11 +26,11 @@ function drawImage(e) {
     const params = getExecutionParams();
 
     let cells = marchingSquares(params.data, params.threshold, params.interpolate);
+    resultingCellCases = cells.map(c => c.case);
+    resultingCellStates = cells.map((c, i) => ({ highlighted: resultingCellStates[i] ? resultingCellStates[i].highlighted || false : false}));
 
-    const canvasEl = document.querySelector('#result-canvas');
     const imageSize = vec2(canvasEl.clientWidth, canvasEl.clientHeight);
     const dataSize = vec2(params.data.length > 0 ? params.data[0].length : 0, params.data.length);
-    const ctx = canvasEl.getContext('2d');
 
     // limpa o canvas para poder desenhar a imagem
     ctx.clearRect(0, 0, imageSize.x, imageSize.y);
@@ -177,6 +182,29 @@ function drawImage(e) {
             ctx.fill();
         }
     });
+
+
+    // desenha um contorno nas células que estão no state highlight
+    ctx.strokeStyle = '#aaa';
+    for (let c = 0; c < resultingCellStates.length; c++) {
+        const cellState = resultingCellStates[c];
+        if (!cellState.highlighted) continue;
+
+        const i = Math.floor(c / (dataSize.x - 1));
+        const j = Math.floor(c % (dataSize.x - 1));
+
+        ctx.beginPath();
+        ctx.strokeRect(
+          j * imageSize.x / dataSize.x,
+          i * imageSize.y / dataSize.y,
+          imageSize.x / dataSize.x,
+          imageSize.y / dataSize.y
+        );
+        ctx.closePath();
+        ctx.stroke();
+    }
+
+
     ctx.restore();
 
 
@@ -232,7 +260,6 @@ setResultCanvasDimensions();
 // configura largura/altura do canvas de resultado de acordo com
 // os dados de input
 function setResultCanvasDimensions() {
-    const canvasEl = document.querySelector('#result-canvas');
     const panelWidth = document.querySelector('#result-panel').clientWidth - 10;
     const panelHeight = document.querySelector('#result-panel').clientHeight - 10;
     const data = input.getData();
@@ -259,6 +286,44 @@ const thresholdEl = document.querySelector('#option-threshold');
 const thresholdValueEl = document.querySelector('#option-threshold-value')
 thresholdEl.addEventListener('input', () => thresholdValueEl.value = thresholdEl.value);
 
-
 // configura LUT
 lut.draw();
+
+// configura interação do mouse com o #result-canvas
+canvasEl.addEventListener('mousemove', mouseMoveInResultCanvas);
+
+function mouseMoveInResultCanvas(e) {
+    const canvasRect = canvasEl.getBoundingClientRect();
+    const x = e.clientX - canvasRect.left;
+    const y = e.clientY - canvasRect.top;
+
+    // pega o tamanho do canvas e dos dados
+    const imageSize = vec2(canvasEl.clientWidth, canvasEl.clientHeight);
+    const data = input.getData();
+    const dataSize = vec2(data.length > 0 ? data[0].length : 0, data.length);
+
+    // descobre largura/altura de cada célula
+    const cellWidth = imageSize.x / dataSize.x;
+    const cellHeight = imageSize.y / dataSize.y;
+
+    // itera na quantidade de células verificando se o mouse está dentro de alguma
+    for (let i = 0, foundCell = false; i < dataSize.y - 1 && !foundCell; i++) {
+        for (let j = 0; j < dataSize.x - 1 && !foundCell; j++) {
+            const rect = {
+                left: (j + 0.5) * cellWidth,
+                right: (j + 1.5) * cellWidth,
+                top: (i + 0.5) * cellHeight,
+                bottom: (i + 1.5) * cellHeight
+            };
+            const isMouseInsideRect = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+
+            if (isMouseInsideRect) {
+                resultingCellStates[i * (dataSize.x - 1) + j].highlighted = true;
+                lut.highlightCase(resultingCellCases[i * (dataSize.x - 1) + j], true);
+            } else {
+                resultingCellStates[i * (dataSize.x - 1) + j].highlighted = false;
+            }
+        }
+    }
+    drawImage();
+}

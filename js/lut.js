@@ -13,11 +13,11 @@ const lutState = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(i =>
 });
 
 function highlightLutCase(index, desselectOthers = false) {
-    lutState[index].highlighted = false;
+    lutState[index].highlighted = true;
     if (desselectOthers) {
         for (let c = 0; c < lutState.length; c++) {
-            if (c === index) {
-              lutState[index].highlighted = false;
+            if (c !== index) {
+              lutState[c].highlighted = false;
             }
         }
     }
@@ -33,13 +33,11 @@ function drawCase(polygons, width, height, i) {
         height - LUT_CASE_MARGIN_VERTICAL * 2
     );
 
-    for (let c = 0; c < polygons.length; c++) {
-        const polygon = polygons[c];
-
+    for (let polygon of polygons) {
         if (!polygon.length) continue;
 
         // desenha contorno do polígono
-        ctx.fillStyle = lutState[c].highlighted ? '#000' : '#ffa192';
+        ctx.fillStyle = lutState[i].highlighted ? '#000' : '#ffa192';
         ctx.beginPath();
         ctx.moveTo(
             polygon[0].x * (width - LUT_CASE_MARGIN_HORIZONTAL * 2) + LUT_CASE_MARGIN_HORIZONTAL,
@@ -56,7 +54,7 @@ function drawCase(polygons, width, height, i) {
         ctx.closePath();
 
         // desenha bolotinha nos vértices
-        ctx.fillStyle = lutState[c].highlighted ? '#f00' : '#ffa192';
+        ctx.fillStyle = lutState[i].highlighted ? '#ff4e33' : '#ffa192';
         for (let vertex of polygon) {
             if (vertex.inside) continue;
 
@@ -80,7 +78,7 @@ function drawCase(polygons, width, height, i) {
     ctx.textBaseline = 'bottom';
     ctx.textAlign = 'center';
     ctx.font = '8px monospace';
-    ctx.fillStyle = '#181818';
+    ctx.fillStyle = lutState[i].highlighted ? '#ff4e33' : '#181818';
     ctx.fillText(`case ${i}`, width/2, height, width);
 
 
@@ -106,5 +104,9 @@ function draw() {
 }
 
 export const lut = {
-    draw
+    draw,
+    highlightCase: (...args) => {
+      highlightLutCase(...args);
+      draw();
+    }
 };

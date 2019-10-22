@@ -99,6 +99,7 @@ a:hover {
     display: block;
     margin: auto;
     background-color: white;
+    cursor: crosshair;
 }
 
 #lookup-canvas {
